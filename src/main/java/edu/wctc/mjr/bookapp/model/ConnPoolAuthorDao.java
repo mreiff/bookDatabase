@@ -1,9 +1,10 @@
-package edu.wctc.web.demo.bookwebapp.model;
+package edu.wctc.mjr.bookapp.model;
 
 import com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource;
 import edu.wctc.mjr.bookapp.model.Author;
 import edu.wctc.mjr.bookapp.model.AuthorDaoStrategy;
 import edu.wctc.mjr.bookapp.model.DBStrategy;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -113,7 +114,33 @@ public class ConnPoolAuthorDao implements AuthorDaoStrategy {
         Context ctx = new InitialContext();
         DataSource ds = (DataSource) ctx.lookup("jdbc/book");
 
-        AuthorDaoStrategy dao = new ConnPoolAuthorDao(ds, new MySqlDbStrategy());
+        AuthorDaoStrategy dao = new ConnPoolAuthorDao(ds, new DBStrategy() {
+
+            @Override
+            public void closeConnection() throws SQLException {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void openConnection(DataSource ds) throws Exception {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void deleteById(String tableName, String primaryKeyFieldName, Object primaryKeyValue) throws SQLException {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public List<Map<String, Object>> findAllRecords(String tableName) throws SQLException {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void openConnection(String driverClass, String url, String userName, String password) throws Exception {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
 
         List<Author> authors = dao.getAllAuthors();
         for (Author a : authors) {
@@ -121,8 +148,8 @@ public class ConnPoolAuthorDao implements AuthorDaoStrategy {
         }
     }
 
-    @Override
-    public List<Author> getAllAuthors() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+//    @Override
+//    public List<Author> getAllAuthors() throws Exception {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
 }

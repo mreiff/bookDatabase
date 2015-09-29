@@ -1,4 +1,4 @@
-package edu.wctc.web.demo.bookwebapp.model;
+package edu.wctc.mjr.bookapp.model;
 
 import edu.wctc.mjr.bookapp.model.Author;
 import edu.wctc.mjr.bookapp.model.AuthorDaoStrategy;

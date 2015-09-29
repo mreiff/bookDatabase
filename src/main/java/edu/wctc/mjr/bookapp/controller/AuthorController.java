@@ -58,7 +58,7 @@ public class AuthorController extends HttpServlet {
          which is not very efficient. In the future we'll learn how to use
          a connection pool to improve this.
          */
-        DBStrategy db = new MySqlDb();
+        DBStrategy db = (DBStrategy) new MySqlDb();
         AuthorDaoStrategy authDao
                 = new AuthorDao(db, "com.mysql.jdbc.Driver",
                         "jdbc:mysql://localhost:3306/book", "root", "admin");
