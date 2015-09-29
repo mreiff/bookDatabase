@@ -1,5 +1,6 @@
 package edu.wctc.mjr.bookapp.controller;
 
+import edu.wctc.mjr.bookapp.model.Author;
 import edu.wctc.mjr.bookapp.model.AuthorDao;
 import edu.wctc.mjr.bookapp.model.AuthorDaoStrategy;
 import edu.wctc.mjr.bookapp.model.AuthorService;
@@ -20,7 +21,7 @@ import javax.sql.DataSource;
 /**
  * The main controller for author-related activities
  *
- * @author jlombardo
+ * @author 
  */
 @WebServlet(name = "AuthorController", urlPatterns = {"/AuthorController"})
 public class AuthorController extends HttpServlet {
