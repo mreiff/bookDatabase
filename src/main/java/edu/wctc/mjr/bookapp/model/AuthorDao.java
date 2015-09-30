@@ -1,8 +1,5 @@
 package edu.wctc.mjr.bookapp.model;
 
-import edu.wctc.mjr.bookapp.model.Author;
-import edu.wctc.mjr.bookapp.model.AuthorDaoStrategy;
-import edu.wctc.mjr.bookapp.model.DBStrategy;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.ArrayList;
@@ -19,6 +16,7 @@ import javax.sql.DataSource;
  * @author 
  */
 public class AuthorDao implements AuthorDaoStrategy {
+    
     private DBStrategy db;
     private String driverClass;
     private String url;
@@ -36,68 +34,26 @@ public class AuthorDao implements AuthorDaoStrategy {
     @Override
     public final List<Author> getAllAuthors() throws Exception {
         db.openConnection(driverClass, url, userName, password);
-        List<Author> records = new ArrayList<>();
+        List<Author> authors = new ArrayList<>();
 
-        List<Map<String,Object>> rawData = db.findAllRecords("author");
-        for(Map rawRec : rawData) {
+        List<Map<String,Object>> results = db.findAllRecords("author");
+        for(Map row : results) {
             Author author = new Author();
-            Object obj = rawRec.get("author_id");
+            
+            Object obj = row.get("author_id");
             author.setAuthorId(Integer.parseInt(obj.toString()));
             
-            String name = rawRec.get("author_name") == null ? "" : rawRec.get("author_name").toString();
+            String name = row.get("author_name").toString();
             author.setAuthorName(name);
             
-            obj = rawRec.get("date_added");
-            Date dateAdded = (obj == null) ? new Date() : (Date)rawRec.get("date_added");
-            author.setDateAdded(dateAdded);
-            records.add(author);
+            Date dateCreated = (Date)row.get("date_created");
+            author.setDateAdded(dateCreated);
+            
+            authors.add(author);
         }
         
-        // Actually closes connection
         db.closeConnection();
         
-        return records;
-        
+        return authors;
     }
-    
-    // Test harness - not used in production
-    public static void main(String[] args) throws Exception {
-        AuthorDao dao = new AuthorDao(new DBStrategy() {
-
-            @Override
-            public void closeConnection() throws SQLException {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            @Override
-            public void openConnection(DataSource ds) throws Exception {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            @Override
-            public void deleteById(String tableName, String primaryKeyFieldName, Object primaryKeyValue) throws SQLException {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            @Override
-            public List<Map<String, Object>> findAllRecords(String tableName) throws SQLException {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            @Override
-            public void openConnection(String driverClass, String url, String userName, String password) throws Exception {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-        },"com.mysql.jdbc.Driver", "jdbc:mysql://localhost:3306/book", "root", "admin");
-    
-        List<Author> authors = dao.getAllAuthors();
-        for(Author a : authors) {
-            System.out.println(a);
-        }
-    }
-
-//    @Override
-//    public List<Author> getAllAuthors() throws Exception {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
 }

@@ -7,7 +7,7 @@ import javax.sql.DataSource;
 
 /**
  *
- * @author jlombardo
+ * @author 
  */
 public interface DBStrategy {
 

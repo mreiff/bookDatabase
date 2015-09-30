@@ -12,7 +12,6 @@ import java.util.Date;
  * @author Matthew
  */
 public class Author {
-    public final class Author {
     private Integer authorId;
     private String authorName;
     private Date dateAdded;
@@ -53,5 +52,5 @@ public class Author {
     public void setDateAdded(Date dateAdded) {
         this.dateAdded = dateAdded;
     }
-    }
+    
 }
