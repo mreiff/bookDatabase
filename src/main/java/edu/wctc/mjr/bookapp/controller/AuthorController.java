@@ -35,6 +35,16 @@ public class AuthorController extends HttpServlet {
     private static final String UPDATE_ACTION = "update";
     private static final String DELETE_ACTION = "delete";
     private static final String ACTION_PARAM = "action";
+    
+    //For init method
+    private String driverClass;
+    private String url;
+    private String userName;
+    private String password;
+    private String dbStrategyClassName;
+    private String daoClassName;
+    private DBStrategy db;
+    private AuthorDaoStrategy authorDao;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -66,18 +76,7 @@ public class AuthorController extends HttpServlet {
         AuthorService authService = new AuthorService(authDao);
 
         try {
-            /*
-             Here's what the connection pool version looks like.
-             */
-//            Context ctx = new InitialContext();
-//            DataSource ds = (DataSource)ctx.lookup("jdbc/book");
-//            AuthorDaoStrategy authDao = new ConnPoolAuthorDao(ds, new MySqlDbStrategy());
-//            AuthorService authService = new AuthorService(authDao);
-
-            /*
-             Determine what action to take based on a passed in QueryString
-             Parameter
-             */
+            
             if (action.equals(LIST_ACTION)) {
                 List<Author> authors = null;
                 authors = authService.getAllAuthors();
@@ -97,13 +96,14 @@ public class AuthorController extends HttpServlet {
             }
             
         } catch (Exception e) {
-            request.setAttribute("errMsg", e.getCause().getMessage());
+            e.printStackTrace();
         }
 
         // Forward to destination page
         RequestDispatcher dispatcher
                 = getServletContext().getRequestDispatcher(destination);
         dispatcher.forward(request, response);
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -144,5 +144,16 @@ public class AuthorController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+    
+    @Override
+    public void init() throws ServletException {
+        // Get init params from web.xml
+        driverClass = getServletConfig().getInitParameter("driverClass");
+        url = getServletConfig().getInitParameter("url");
+        userName = getServletConfig().getInitParameter("userName");
+        password = getServletConfig().getInitParameter("password");
+        dbStrategyClassName = this.getServletConfig().getInitParameter("dbStrategy");
+        daoClassName = this.getServletConfig().getInitParameter("authorDao");
+    }
 
 }

@@ -15,7 +15,7 @@ public interface DBStrategy {
     
     void openConnection(DataSource ds) throws Exception;
 
-    void deleteById(String tableName, String primaryKeyFieldName, Object primaryKeyValue) throws SQLException;
+    int deleteById(String tableName, String columnName, Object value) throws SQLException;
 
     List<Map<String, Object>> findAllRecords(String tableName) throws SQLException;
 

@@ -56,4 +56,22 @@ public class AuthorDao implements AuthorDaoStrategy {
         
         return authors;
     }
+    
+    @Override
+    public void deleteAuthorById(int authorId) throws Exception {
+        db.openConnection(driverClass, url, userName, password);
+        
+        db.deleteById("author", "author_id", authorId);
+        
+    }
+
+    @Override
+    public Author getAuthorById(Integer authorId) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void createAuthor(int authorId, String authorName) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

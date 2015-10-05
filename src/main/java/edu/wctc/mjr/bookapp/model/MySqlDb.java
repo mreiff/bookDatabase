@@ -17,12 +17,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import javax.sql.DataSource;
 
 /**
  *
  * @author Matthew
  */
-public class MySqlDb {
+public class MySqlDb implements DBStrategy{
     private Connection conn;
     
     public void openConnection(String driverClass, String url, String userName, String password) throws Exception{
@@ -46,7 +47,7 @@ public class MySqlDb {
         while(rs.next()){
             Map<String,Object> record = new HashMap<>();
             for(int i=1; i <= columnCount; i++){
-                record.put(metaData.getCatalogName(i), rs.getObject(i));
+                record.put(metaData.getColumnName(i), rs.getObject(i));
             }
             records.add(record);
         }
@@ -73,7 +74,8 @@ public class MySqlDb {
         return rowsUpdated;
     }
     
-        public int deleteRecordWithPrepared(String tableName, String columnName, Object value) throws SQLException{
+        @Override
+        public int deleteById(String tableName, String columnName, Object value) throws SQLException{
 //        String strValue = value.toString();
 //
 //        String sql = "Delete From " + tableName + " WHERE " + columnName + " = ";
@@ -186,7 +188,7 @@ public class MySqlDb {
         for(Map record : records) {
             System.out.println(record);
         }
-        System.out.println(db.deleteRecordWithPrepared("author", "author_id", 5));
+        System.out.println(db.deleteById("author", "author_id", 5));
         /*ArrayList columnNames = new ArrayList();
         columnNames.add("author_name");
         columnNames.add("date_created");
@@ -201,4 +203,10 @@ public class MySqlDb {
         db.updateRecord("author", columnNames, columnValues, "author_id", 4);
         db.closeConnection();
     }
+
+    @Override
+    public void openConnection(DataSource ds) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }
