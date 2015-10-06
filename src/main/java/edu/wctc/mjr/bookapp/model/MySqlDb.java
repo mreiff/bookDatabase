@@ -26,6 +26,7 @@ import javax.sql.DataSource;
 public class MySqlDb implements DBStrategy{
     private Connection conn;
     
+    @Override
     public void openConnection(String driverClass, String url, String userName, String password) throws Exception{
          Class.forName (driverClass);
           conn = DriverManager.getConnection(url, userName, password);
@@ -98,7 +99,8 @@ public class MySqlDb implements DBStrategy{
         return rowsUpdated;
     }
     
-        public int addRecord(String tableName, List columnName, List values) throws SQLException{
+        @Override
+        public int addRecord(String tableName, List columnName, List values) throws SQLException, Exception{
             PreparedStatement pstmt = null;
             int recordsAdded = 0;
             
@@ -117,6 +119,7 @@ public class MySqlDb implements DBStrategy{
             return recordsAdded;
         }
         
+        @Override
         public int updateRecord(String tableName, List columnName, List values, String whereField, Object whereValue) throws SQLException{
             PreparedStatement pstmt = null;
             int recordsUpdated = 0;
@@ -206,7 +209,6 @@ public class MySqlDb implements DBStrategy{
 
     @Override
     public void openConnection(DataSource ds) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        conn = ds.getConnection();
     }
-
 }

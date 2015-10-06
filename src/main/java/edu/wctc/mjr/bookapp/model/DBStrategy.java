@@ -21,4 +21,8 @@ public interface DBStrategy {
 
     void openConnection(String driverClass, String url, String userName, String password) throws Exception;
     
+    int addRecord(String tableName, List columnName, List values) throws SQLException, Exception;
+
+    public int updateRecord(String tableName, List columnName, List values, String whereField, Object whereValue) throws SQLException;
+    
 }

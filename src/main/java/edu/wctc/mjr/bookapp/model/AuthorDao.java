@@ -66,7 +66,7 @@ public class AuthorDao implements AuthorDaoStrategy {
     }
 
     @Override
-    public Author getAuthorById(Integer authorId) throws Exception {
+    public Author getAuthorById(int authorId) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

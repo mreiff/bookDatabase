@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface AuthorDaoStrategy {
     
-    Author getAuthorById(Integer authorId) throws Exception;
+    Author getAuthorById(int authorId) throws Exception;
     
     List<Author> getAllAuthors() throws Exception;
     
