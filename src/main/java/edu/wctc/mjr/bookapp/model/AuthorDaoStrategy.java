@@ -5,6 +5,7 @@
  */
 package edu.wctc.mjr.bookapp.model;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,5 +20,5 @@ public interface AuthorDaoStrategy {
     
     void deleteAuthorById(int authorId) throws Exception;
     
-    void createAuthor(int authorId, String authorName) throws Exception;
+    void createAuthor(String authorName, String date) throws Exception;
 }

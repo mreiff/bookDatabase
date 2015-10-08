@@ -68,7 +68,6 @@ public class MySqlDb implements DBStrategy{
         
         sql += strValue;
         
-        //System.out.println(sql);
         int rowsUpdated = stmt.executeUpdate(sql);
         stmt.close();
         
@@ -77,15 +76,6 @@ public class MySqlDb implements DBStrategy{
     
         @Override
         public int deleteById(String tableName, String columnName, Object value) throws SQLException{
-//        String strValue = value.toString();
-//
-//        String sql = "Delete From " + tableName + " WHERE " + columnName + " = ";
-//        
-//        if(value instanceof String){
-//            strValue = "'" + value.toString() + "'";            
-//        }
-//        
-//        sql += strValue;
         
         PreparedStatement pstmt = conn.prepareStatement(
                 "Delete From " + tableName + " WHERE " + columnName + " = ?");
@@ -192,13 +182,6 @@ public class MySqlDb implements DBStrategy{
             System.out.println(record);
         }
         System.out.println(db.deleteById("author", "author_id", 5));
-        /*ArrayList columnNames = new ArrayList();
-        columnNames.add("author_name");
-        columnNames.add("date_created");
-        ArrayList columnValues = new ArrayList();
-        columnValues.add("Billy Newman");
-        columnValues.add("2015-10-12");
-        System.out.println(db.addRecord("author", columnNames, columnValues));*/
         ArrayList columnNames = new ArrayList();
         columnNames.add("author_name");
         ArrayList columnValues = new ArrayList();
@@ -211,4 +194,9 @@ public class MySqlDb implements DBStrategy{
     public void openConnection(DataSource ds) throws Exception {
         conn = ds.getConnection();
     }
+
+    /*@Override
+    public int findById(String author, String author_Id, int authorId) throws SQLException {
+        
+    }*/
 }

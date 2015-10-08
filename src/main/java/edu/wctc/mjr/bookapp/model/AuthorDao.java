@@ -3,6 +3,7 @@ package edu.wctc.mjr.bookapp.model;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import javax.sql.DataSource;
@@ -63,6 +64,7 @@ public class AuthorDao implements AuthorDaoStrategy {
         
         db.deleteById("author", "author_id", authorId);
         
+        db.closeConnection();
     }
 
     @Override
@@ -71,7 +73,11 @@ public class AuthorDao implements AuthorDaoStrategy {
     }
 
     @Override
-    public void createAuthor(int authorId, String authorName) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void createAuthor(String authorName, String date) throws Exception {
+        db.openConnection(driverClass, url, userName, password);
+        
+        db.addRecord("author", Arrays.asList("author_name","date_added"), Arrays.asList(authorName,new Date()));
+        
+        db.closeConnection();
     }
 }

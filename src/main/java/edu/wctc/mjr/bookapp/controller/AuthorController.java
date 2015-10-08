@@ -21,12 +21,10 @@ import javax.sql.DataSource;
 /**
  * The main controller for author-related activities
  *
- * @author 
+ * @author Matthew
  */
 @WebServlet(name = "AuthorController", urlPatterns = {"/AuthorController"})
 public class AuthorController extends HttpServlet {
-
-    // NO MAGIC NUMBERS!
 
     private static final String NO_PARAM_ERR_MSG = "No request parameter identified";
     private static final String LIST_PAGE = "/listAuthors.jsp";
@@ -62,13 +60,6 @@ public class AuthorController extends HttpServlet {
         String destination = LIST_PAGE;
         String action = request.getParameter(ACTION_PARAM);
 
-        /*
-         For now we are hard-coding the strategy objects into this
-         controller. In the future we'll auto inject them from a config
-         file. Also, the DAO opens/closes a connection on each method call,
-         which is not very efficient. In the future we'll learn how to use
-         a connection pool to improve this.
-         */
         DBStrategy db = (DBStrategy) new MySqlDb();
         AuthorDaoStrategy authDao
                 = new AuthorDao(db, "com.mysql.jdbc.Driver",
@@ -83,12 +74,32 @@ public class AuthorController extends HttpServlet {
                 request.setAttribute("authors", authors);
                 destination = LIST_PAGE;
 
-            } else if (action.equals("ADD_ACTION")) {
+            } else if (action.equals(ADD_ACTION)) {
                 // coming soon
-            } else if (action.equals("UPDATE_ACTION")) {
+                String authorNameAdd = request.getParameter("addAuthorName");
+                String dateAdd = request.getParameter("addDate");
+                
+                
+                //authService.addAuthor(tableName, authorName, date);
+                authService.addAuthor(authorNameAdd, dateAdd);
+                
+                response.sendRedirect("http://localhost:8080/bookApp/AuthorController?action=list");
+                return;
+            } else if (action.equals(UPDATE_ACTION)) {
+                String authorIdUpdate = request.getParameter("updateIdSelector");
+                String authorNameUpdate = request.getParameter("updateAuthorName");
+                String authorDateUpdate = request.getParameter("updateAuthorDate");
                 // coming soon
-            } else if (action.equals("DELETE_ACTION")) {
-                // coming soon
+                
+                response.sendRedirect("http://localhost:8080/bookApp/AuthorController?action=list");
+                return;
+            } else if (action.equals(DELETE_ACTION)) {
+                String authorIdDelete = request.getParameter("delete");
+                
+                authService.deleteAuthor(authorIdDelete);
+                
+                response.sendRedirect("http://localhost:8080/bookApp/AuthorController?action=list");
+                return;
             } else {
                 // no param identified in request, must be an error
                 request.setAttribute("errMsg", NO_PARAM_ERR_MSG);

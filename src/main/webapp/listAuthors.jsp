@@ -1,7 +1,7 @@
 <%-- 
     Document   : listAuthors
     Created on : Sep 21, 2015, 9:36:05 PM
-    Author     : jlombardo
+    Author     : Matthew
     Purpose    : display list of author records and (in the future) provide
                  a way to add/edit/delete records
 --%>
@@ -19,6 +19,26 @@
     </head>
     <body>
         <h1>Author List</h1>
+        <form method="post" action="AuthorController" id="deleteRecords">
+            <input type="submit" value="Delete Record By ID" id="deleteAuthor"/>
+            <input type="number" min="0" value="0" id="delete" name="delete"/>
+            <input name="action" type="hidden" value="delete"/>
+        </form>
+        <br>
+        <form id="addRecords">
+            <input type="submit" value="Add Record" id="add"/>
+            <input type="text" placeholder="Author Name" id="addAuthorName" name="addAuthorName"/>
+            <input type="date" id="addDate" name="addDate"/>
+            <input name="action" type="hidden" value="add"
+        </form>
+        <br><br>
+        <form id="updateRecords">
+            <input type="submit" value="Update Record" id="update"/>
+            <input type="number" min="0" value="0" name="updateIdSelector"/>
+            <input type="text" name="updateAuthorName"/>
+            <input type="date" name="updateAuthorDate"/>
+        </form>
+        <br>
         <table width="500" border="1" cellspacing="0" cellpadding="4">
             <tr style="background-color: black;color:white;">
                 <th align="left" class="tableHead">ID</th>

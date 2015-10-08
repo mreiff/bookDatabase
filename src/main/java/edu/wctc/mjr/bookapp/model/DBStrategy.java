@@ -25,4 +25,6 @@ public interface DBStrategy {
 
     public int updateRecord(String tableName, List columnName, List values, String whereField, Object whereValue) throws SQLException;
     
+    //public int findById(String author, String author_Id, int authorId) throws SQLException;
+    
 }
