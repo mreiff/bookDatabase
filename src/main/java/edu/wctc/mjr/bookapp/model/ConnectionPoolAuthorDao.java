@@ -136,4 +136,9 @@ public class ConnectionPoolAuthorDao implements AuthorDaoStrategy{
             System.out.println(a);
         }
     }
+
+    @Override
+    public void updateAuthor(String authorId, String authorName, String date) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

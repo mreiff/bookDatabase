@@ -91,6 +91,7 @@ public class AuthorController extends HttpServlet {
                 String authorDateUpdate = request.getParameter("updateAuthorDate");
                 // coming soon
                 
+                //authService
                 response.sendRedirect("http://localhost:8080/bookApp/AuthorController?action=list");
                 return;
             } else if (action.equals(DELETE_ACTION)) {

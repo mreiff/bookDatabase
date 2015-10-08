@@ -21,4 +21,6 @@ public interface AuthorDaoStrategy {
     void deleteAuthorById(int authorId) throws Exception;
     
     void createAuthor(String authorName, String date) throws Exception;
+    
+    void updateAuthor(String authorId, String authorName, String date) throws Exception;
 }

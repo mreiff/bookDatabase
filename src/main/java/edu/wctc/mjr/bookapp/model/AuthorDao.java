@@ -80,4 +80,13 @@ public class AuthorDao implements AuthorDaoStrategy {
         
         db.closeConnection();
     }
+
+    @Override
+    public void updateAuthor(String authorId, String authorName, String date) throws Exception {
+        db.openConnection(driverClass, url, userName, password);
+        
+        db.updateRecord("author", Arrays.asList("author_name", "date_added"), Arrays.asList(authorName,new Date()), userName, userName);
+       
+        db.closeConnection();
+    }
 }

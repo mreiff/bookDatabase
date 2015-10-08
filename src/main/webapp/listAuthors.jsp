@@ -25,18 +25,19 @@
             <input name="action" type="hidden" value="delete"/>
         </form>
         <br>
-        <form id="addRecords">
+        <form method="post" action="AuthorController" id="addRecords">
             <input type="submit" value="Add Record" id="add"/>
             <input type="text" placeholder="Author Name" id="addAuthorName" name="addAuthorName"/>
             <input type="date" id="addDate" name="addDate"/>
-            <input name="action" type="hidden" value="add"
+            <input name="action" type="hidden" value="add"/>
         </form>
-        <br><br>
-        <form id="updateRecords">
+        <br>
+        <form method="post" action="AuthorController" id="updateRecords">
             <input type="submit" value="Update Record" id="update"/>
             <input type="number" min="0" value="0" name="updateIdSelector"/>
             <input type="text" name="updateAuthorName"/>
             <input type="date" name="updateAuthorDate"/>
+            <input name="action" type="hidden" value="update"/>
         </form>
         <br>
         <table width="500" border="1" cellspacing="0" cellpadding="4">
