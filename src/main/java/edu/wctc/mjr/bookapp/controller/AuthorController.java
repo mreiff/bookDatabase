@@ -1,13 +1,12 @@
 package edu.wctc.mjr.bookapp.controller;
 
-import edu.wctc.mjr.bookapp.model.Author;
-import edu.wctc.mjr.bookapp.model.AuthorDao;
-import edu.wctc.mjr.bookapp.model.AuthorDaoStrategy;
-import edu.wctc.mjr.bookapp.model.AuthorService;
-import edu.wctc.mjr.bookapp.model.DBStrategy;
-import edu.wctc.mjr.bookapp.model.MySqlDb;
+import edu.wctc.mjr.bookapp.entity.Author;
+import edu.wctc.mjr.bookapp.service.AuthorFacade;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import javax.inject.Inject;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.servlet.RequestDispatcher;
@@ -34,16 +33,10 @@ public class AuthorController extends HttpServlet {
     private static final String DELETE_ACTION = "delete";
     private static final String ACTION_PARAM = "action";
     
-    //For init method
-    private String driverClass;
-    private String url;
-    private String userName;
-    private String password;
-    private String dbStrategyClassName;
-    private String daoClassName;
-    private DBStrategy db;
-    private AuthorDaoStrategy authorDao;
-
+    @Inject
+    private AuthorFacade authService;
+    
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -60,17 +53,11 @@ public class AuthorController extends HttpServlet {
         String destination = LIST_PAGE;
         String action = request.getParameter(ACTION_PARAM);
 
-        DBStrategy db = (DBStrategy) new MySqlDb();
-        AuthorDaoStrategy authDao
-                = new AuthorDao(db, "com.mysql.jdbc.Driver",
-                        "jdbc:mysql://localhost:3306/book", "root", "admin");
-        AuthorService authService = new AuthorService(authDao);
-
         try {
             
             if (action.equals(LIST_ACTION)) {
                 List<Author> authors = null;
-                authors = authService.getAllAuthors();
+                authors = authService.findAll();
                 request.setAttribute("authors", authors);
                 destination = LIST_PAGE;
 
@@ -78,10 +65,13 @@ public class AuthorController extends HttpServlet {
                 // coming soon
                 String authorNameAdd = request.getParameter("addAuthorName");
                 String dateAdd = request.getParameter("addDate");
+                Author author = null;
                 
+                author = new Author(0);
+                author.setAuthorName(authorNameAdd);
+                author.setDateCreated(new Date());
                 
-                //authService.addAuthor(tableName, authorName, date);
-                authService.addAuthor(authorNameAdd, dateAdd);
+                authService.edit(author);
                 
                 response.sendRedirect("http://localhost:8080/bookApp/AuthorController?action=list");
                 return;
@@ -89,7 +79,15 @@ public class AuthorController extends HttpServlet {
                 String authorIdUpdate = request.getParameter("updateIdSelector");
                 String authorNameUpdate = request.getParameter("updateAuthorName");
                 String authorDateUpdate = request.getParameter("updateAuthorDate");
+                Author author = new Author(new Integer(authorIdUpdate));
                 // coming soon
+                
+                author.setAuthorName(authorNameUpdate);
+                
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                author.setDateCreated(sdf.parse(authorDateUpdate));
+                
+                authService.edit(author);
                 
                 //authService
                 response.sendRedirect("http://localhost:8080/bookApp/AuthorController?action=list");
@@ -97,7 +95,8 @@ public class AuthorController extends HttpServlet {
             } else if (action.equals(DELETE_ACTION)) {
                 String authorIdDelete = request.getParameter("delete");
                 
-                authService.deleteAuthor(authorIdDelete);
+                Author author = authService.find(new Integer(authorIdDelete));
+                authService.remove(author);
                 
                 response.sendRedirect("http://localhost:8080/bookApp/AuthorController?action=list");
                 return;
@@ -160,12 +159,7 @@ public class AuthorController extends HttpServlet {
     @Override
     public void init() throws ServletException {
         // Get init params from web.xml
-        driverClass = getServletConfig().getInitParameter("driverClass");
-        url = getServletConfig().getInitParameter("url");
-        userName = getServletConfig().getInitParameter("userName");
-        password = getServletConfig().getInitParameter("password");
-        dbStrategyClassName = this.getServletConfig().getInitParameter("dbStrategy");
-        daoClassName = this.getServletConfig().getInitParameter("authorDao");
+        
     }
 
 }
