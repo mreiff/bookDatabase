@@ -16,7 +16,6 @@ public class AuthorService {
 
     public AuthorService(AuthorDaoStrategy dao) {
         this.dao = dao;
-
     }
     
     public final List<Author> getAllAuthors() throws Exception {

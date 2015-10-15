@@ -14,13 +14,13 @@ import java.util.List;
  */
 public interface AuthorDaoStrategy {
     
-    Author getAuthorById(int authorId) throws Exception;
+    Author getAuthorById(int authorId) throws Exception; //X
     
-    List<Author> getAllAuthors() throws Exception;
+    List<Author> getAllAuthors() throws Exception; //X
     
-    void deleteAuthorById(int authorId) throws Exception;
+    void deleteAuthorById(int authorId) throws Exception; //C
     
-    void createAuthor(String authorName, String date) throws Exception;
+    void createAuthor(String authorName, String date) throws Exception; //C
     
-    void updateAuthor(String authorId, String authorName, String date) throws Exception;
+    void updateAuthor(String authorId, String authorName, String date) throws Exception; //C
 }
