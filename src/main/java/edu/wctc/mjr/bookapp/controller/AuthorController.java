@@ -1,6 +1,7 @@
 package edu.wctc.mjr.bookapp.controller;
 
 import edu.wctc.mjr.bookapp.entity.Author;
+import edu.wctc.mjr.bookapp.entity.Book;
 import edu.wctc.mjr.bookapp.service.AuthorFacade;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -57,6 +58,8 @@ public class AuthorController extends HttpServlet {
             
             if (action.equals(LIST_ACTION)) {
                 List<Author> authors = null;
+                List<Book> books = null;
+                books = authService.findAll();
                 authors = authService.findAll();
                 request.setAttribute("authors", authors);
                 destination = LIST_PAGE;

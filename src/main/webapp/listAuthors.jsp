@@ -45,6 +45,7 @@
                 <th align="left" class="tableHead">ID</th>
                 <th align="left" class="tableHead">Author Name</th>
                 <th align="right" class="tableHead">Date Added</th>
+                <th align="left" class="tableHead">Books Published</th>
             </tr>
         <c:forEach var="a" items="${authors}" varStatus="rowCount">
             <c:choose>
@@ -55,9 +56,21 @@
                     <tr style="background-color: #ccffff;">
                 </c:otherwise>
             </c:choose>
+                        <!-- Stuff I added -->
+                <c:choose>
+                    <c:when test="${NOT[empty author.bookId()]}">
+                        <td align="left">${a.authorId(bookId)}</td>
+                    </c:when>
+                </c:choose>
+                        <!-- Stuff I added -->
             <td align="left">${a.authorId}</td>
             <td align="left">${a.authorName}</td>
             <td align="right">
+            <td algn="left"><c:choose>
+                    <c:when test=${NOT empty author.bookId(0)}>
+                        ${a.title}
+                    </c:when>
+                            </c:choose>
                 <fmt:formatDate pattern="M/d/yyyy" value="${a.dateCreated}"></fmt:formatDate>
             </td>
         </tr>
