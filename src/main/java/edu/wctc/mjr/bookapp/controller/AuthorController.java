@@ -58,8 +58,8 @@ public class AuthorController extends HttpServlet {
             
             if (action.equals(LIST_ACTION)) {
                 List<Author> authors = null;
-                List<Book> books = null;
-                books = authService.findAll();
+                //List<Book> books = null;
+                //books = authService.findAll();
                 authors = authService.findAll();
                 request.setAttribute("authors", authors);
                 destination = LIST_PAGE;
