@@ -1,8 +1,6 @@
 package edu.wctc.mjr.bookapp.controller;
 
-import edu.wctc.mjr.bookapp.entity.Author;
 import edu.wctc.mjr.bookapp.entity.Book;
-import edu.wctc.mjr.bookapp.service.AuthorService;
 import edu.wctc.mjr.bookapp.service.BookService;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -12,17 +10,20 @@ import javax.inject.Inject;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 /**
- * The main controller for author-related activities
+ * The main controller for book-related activities
  *
- * @author Matthew
+ * @book Matthew
  */
 @WebServlet(name = "BookController", urlPatterns = {"/BookController"})
 public class BookController extends HttpServlet {
@@ -33,11 +34,7 @@ public class BookController extends HttpServlet {
     private static final String ADD_ACTION = "add";
     private static final String UPDATE_ACTION = "update";
     private static final String DELETE_ACTION = "delete";
-    private static final String ACTION_PARAM = "action";
-    
-    @Inject
-    private BookService bookService;
-    
+    private static final String ACTION_PARAM = "action";    
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -55,6 +52,11 @@ public class BookController extends HttpServlet {
         String destination = LIST_PAGE;
         String action = request.getParameter(ACTION_PARAM);
 
+        ServletContext sctx = getServletContext();
+        WebApplicationContext ctx
+                = WebApplicationContextUtils.getWebApplicationContext(sctx);
+        BookService bookService = (BookService) ctx.getBean("bookService");
+        
         try {
             
             if (action.equals(LIST_ACTION)) {
@@ -67,35 +69,33 @@ public class BookController extends HttpServlet {
 
             } else if (action.equals(ADD_ACTION)) {
                 // coming soon
+                String bookNameAdd = request.getParameter("addBookName");
                 String bookTitleAdd = request.getParameter("addBookTitle");
-                String bookIsbnAdd = request.getParameter("addBookIsbn");
-                String bookAuthorId = request.getParameter("addAuthorId");
                 Book book = null;
                 
                 book = new Book(0);
-                book.setTitle(bookTitleAdd);
-                book.setIsbn(bookIsbnAdd);
-            // BROKEN    book.setAuthorId(bookAuthorId);
+                book.setTitle(bookNameAdd);
+                book.setIsbn(bookTitleAdd);
+                
                 bookService.edit(book);
                 
-                response.sendRedirect("http://localhost:8080/bookApp/BookController?action=list");
+                response.sendRedirect("http://localhost:8080/bookApp/bookController?action=list");
                 return;
             } else if (action.equals(UPDATE_ACTION)) {
                 String bookIdUpdate = request.getParameter("updateIdSelector");
-                String bookTitleUpdate = request.getParameter("updateBookTitle");
-                String bookIsbnUpdate = request.getParameter("updateBookIsbn");
+                String bookTitleUpdate = request.getParameter("updatebookName");
+                String bookDateUpdate = request.getParameter("updatebookDate");
                 Book book = new Book(new Integer(bookIdUpdate));
                 // coming soon
                 
                 book.setTitle(bookTitleUpdate);
-                book.setIsbn(bookIsbnUpdate);
                 
-                //book.setDateCreated(sdf.parse(bookDateUpdate));
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 
                 bookService.edit(book);
                 
                 //authService
-                response.sendRedirect("http://localhost:8080/bookApp/BookController?action=list");
+                response.sendRedirect("http://localhost:8080/bookApp/bookController?action=list");
                 return;
             } else if (action.equals(DELETE_ACTION)) {
                 String bookIdDelete = request.getParameter("delete");
@@ -103,7 +103,7 @@ public class BookController extends HttpServlet {
                 Book book = bookService.findById(bookIdDelete);
                 bookService.remove(book);
                 
-                response.sendRedirect("http://localhost:8080/bookApp/BookController?action=list");
+                response.sendRedirect("http://localhost:8080/bookApp/bookController?action=list");
                 return;
             } else {
                 // no param identified in request, must be an error
