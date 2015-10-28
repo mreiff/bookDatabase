@@ -2,8 +2,8 @@ package edu.wctc.mjr.bookapp.controller;
 
 import edu.wctc.mjr.bookapp.entity.Author;
 import edu.wctc.mjr.bookapp.entity.Book;
-import edu.wctc.mjr.bookapp.service.AuthorFacade;
-import edu.wctc.mjr.bookapp.service.BookFacade;
+import edu.wctc.mjr.bookapp.service.AuthorService;
+import edu.wctc.mjr.bookapp.service.BookService;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -36,7 +36,7 @@ public class BookController extends HttpServlet {
     private static final String ACTION_PARAM = "action";
     
     @Inject
-    private BookFacade bookService;
+    private BookService bookService;
     
     
     /**
@@ -68,13 +68,14 @@ public class BookController extends HttpServlet {
             } else if (action.equals(ADD_ACTION)) {
                 // coming soon
                 String bookTitleAdd = request.getParameter("addBookTitle");
-                String dateAdd = request.getParameter("addDate");
+                String bookIsbnAdd = request.getParameter("addBookIsbn");
+                String bookAuthorId = request.getParameter("addAuthorId");
                 Book book = null;
                 
                 book = new Book(0);
-                book.setTitle(book.getTitle());
-                book.setIsbn("temporary");
-                
+                book.setTitle(bookTitleAdd);
+                book.setIsbn(bookIsbnAdd);
+            // BROKEN    book.setAuthorId(bookAuthorId);
                 bookService.edit(book);
                 
                 response.sendRedirect("http://localhost:8080/bookApp/BookController?action=list");
@@ -82,13 +83,13 @@ public class BookController extends HttpServlet {
             } else if (action.equals(UPDATE_ACTION)) {
                 String bookIdUpdate = request.getParameter("updateIdSelector");
                 String bookTitleUpdate = request.getParameter("updateBookTitle");
-                String bookDateUpdate = request.getParameter("updateBookDate");
+                String bookIsbnUpdate = request.getParameter("updateBookIsbn");
                 Book book = new Book(new Integer(bookIdUpdate));
                 // coming soon
                 
-                book.setTitle(book.getTitle());
+                book.setTitle(bookTitleUpdate);
+                book.setIsbn(bookIsbnUpdate);
                 
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 //book.setDateCreated(sdf.parse(bookDateUpdate));
                 
                 bookService.edit(book);
@@ -99,7 +100,7 @@ public class BookController extends HttpServlet {
             } else if (action.equals(DELETE_ACTION)) {
                 String bookIdDelete = request.getParameter("delete");
                 
-                Book book = bookService.find(new Integer(bookIdDelete));
+                Book book = bookService.findById(bookIdDelete);
                 bookService.remove(book);
                 
                 response.sendRedirect("http://localhost:8080/bookApp/BookController?action=list");

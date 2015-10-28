@@ -20,23 +20,27 @@
     <body>
         <h1>Book List</h1>
         <form method="post" action="BookController" id="deleteRecords">
-            <input type="submit" value="Delete Record By ID" id="deleteAuthor"/>
+            <input type="submit" value="Delete Record By ID" id="deleteBook"/>
             <input type="number" min="0" value="0" id="delete" name="delete"/>
             <input name="action" type="hidden" value="delete"/>
         </form>
         <br>
         <form method="post" action="BookController" id="addRecords">
             <input type="submit" value="Add Record" id="add"/>
+            <label>Book Title</label>
             <input type="text" placeholder="Book Title" id="addBookTitle" name="addBookTitle"/>
-            <input type="date" id="addDate" name="addDate"/>
+            <label>Book Isbn</label>
+            <input type="date" id="addIsbn" name="addBookIsbn"/>
             <input name="action" type="hidden" value="add"/>
         </form>
         <br>
         <form method="post" action="GameController" id="updateRecords">
             <input type="submit" value="Update Record" id="update"/>
             <input type="number" min="0" value="0" name="updateIdSelector"/>
+            <label>Book Title</label>
             <input type="text" name="updateBookTitle"/>
-            <input type="date" name="updateBookDate"/>
+            <label>Book Isbn</label>
+            <input type="text" name="updateBookIsbn"/>
             <input name="action" type="hidden" value="update"/>
         </form>
         <br>

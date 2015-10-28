@@ -2,7 +2,7 @@ package edu.wctc.mjr.bookapp.controller;
 
 import edu.wctc.mjr.bookapp.entity.Author;
 import edu.wctc.mjr.bookapp.entity.Book;
-import edu.wctc.mjr.bookapp.service.AuthorFacade;
+import edu.wctc.mjr.bookapp.service.AuthorService;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -11,12 +11,15 @@ import javax.inject.Inject;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 /**
  * The main controller for author-related activities
@@ -32,11 +35,7 @@ public class AuthorController extends HttpServlet {
     private static final String ADD_ACTION = "add";
     private static final String UPDATE_ACTION = "update";
     private static final String DELETE_ACTION = "delete";
-    private static final String ACTION_PARAM = "action";
-    
-    @Inject
-    private AuthorFacade authService;
-    
+    private static final String ACTION_PARAM = "action";    
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -54,6 +53,11 @@ public class AuthorController extends HttpServlet {
         String destination = LIST_PAGE;
         String action = request.getParameter(ACTION_PARAM);
 
+        ServletContext sctx = getServletContext();
+        WebApplicationContext ctx
+                = WebApplicationContextUtils.getWebApplicationContext(sctx);
+        AuthorService authService = (AuthorService) ctx.getBean("authorService");
+        
         try {
             
             if (action.equals(LIST_ACTION)) {
@@ -98,7 +102,7 @@ public class AuthorController extends HttpServlet {
             } else if (action.equals(DELETE_ACTION)) {
                 String authorIdDelete = request.getParameter("delete");
                 
-                Author author = authService.find(new Integer(authorIdDelete));
+                Author author = authService.findById(authorIdDelete);
                 authService.remove(author);
                 
                 response.sendRedirect("http://localhost:8080/bookApp/AuthorController?action=list");
