@@ -68,12 +68,14 @@ public class BookController extends HttpServlet {
             } else if (action.equals(ADD_ACTION)) {
                 // coming soon
                 String bookTitleAdd = request.getParameter("addBookTitle");
-                String dateAdd = request.getParameter("addDate");
+                String bookIsbnAdd = request.getParameter("addBookIsbn");
+                String bookAuthorIdAdd = request.getParameter("addBookAuthorId");
                 Book book = null;
                 
                 book = new Book(0);
-                book.setTitle(book.getTitle());
-                book.setIsbn("temporary");
+                book.setTitle(bookTitleAdd);
+                book.setIsbn(bookIsbnAdd);
+                //BROKEN book.setAuthorId(bookAuthorId);
                 
                 bookService.edit(book);
                 
@@ -82,14 +84,13 @@ public class BookController extends HttpServlet {
             } else if (action.equals(UPDATE_ACTION)) {
                 String bookIdUpdate = request.getParameter("updateIdSelector");
                 String bookTitleUpdate = request.getParameter("updateBookTitle");
-                String bookDateUpdate = request.getParameter("updateBookDate");
+                String bookIsbnUpdate = request.getParameter("updateBookIsbn");
                 Book book = new Book(new Integer(bookIdUpdate));
                 // coming soon
                 
-                book.setTitle(book.getTitle());
+                book.setTitle(bookTitleUpdate);
+                book.setIsbn(bookIsbnUpdate);
                 
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                //book.setDateCreated(sdf.parse(bookDateUpdate));
                 
                 bookService.edit(book);
                 

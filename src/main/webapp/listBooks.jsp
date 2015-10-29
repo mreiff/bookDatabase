@@ -28,15 +28,15 @@
         <form method="post" action="BookController" id="addRecords">
             <input type="submit" value="Add Record" id="add"/>
             <input type="text" placeholder="Book Title" id="addBookTitle" name="addBookTitle"/>
-            <input type="date" id="addDate" name="addDate"/>
+            <input type="text" placeholder="Book ISBN" id="addBookIsbn" name="addBookIsbn"/>
             <input name="action" type="hidden" value="add"/>
         </form>
         <br>
         <form method="post" action="GameController" id="updateRecords">
             <input type="submit" value="Update Record" id="update"/>
             <input type="number" min="0" value="0" name="updateIdSelector"/>
-            <input type="text" name="updateBookTitle"/>
-            <input type="date" name="updateBookDate"/>
+            <input type="text" placeholder="Book Title" name="updateBookTitle"/>
+            <input type="text" placeholder="Book Isbn" name="updateBookIsbn"/>
             <input name="action" type="hidden" value="update"/>
         </form>
         <br>
