@@ -88,6 +88,7 @@ public class BookController extends HttpServlet {
                 Book book = new Book(new Integer(bookIdUpdate));
                 // coming soon
                 
+                book.getBookId();
                 book.setTitle(bookTitleUpdate);
                 book.setIsbn(bookIsbnUpdate);
                 
