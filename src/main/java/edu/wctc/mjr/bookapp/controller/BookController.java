@@ -85,8 +85,8 @@ public class BookController extends HttpServlet {
                 return;
             } else if (action.equals(UPDATE_ACTION)) {
                 String bookIdUpdate = request.getParameter("updateIdSelector");
-                String bookTitleUpdate = request.getParameter("updatebookTitle");
-                String bookIsbnUpdate = request.getParameter("updatebookIsbn");
+                String bookTitleUpdate = request.getParameter("updateBookTitle");
+                String bookIsbnUpdate = request.getParameter("updateBookIsbn");
                 Book book = new Book(new Integer(bookIdUpdate));
                 // coming soon
                 

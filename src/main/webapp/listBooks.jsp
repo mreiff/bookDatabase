@@ -34,7 +34,7 @@
             <input name="action" type="hidden" value="add"/>
         </form>
         <br>
-        <form method="post" action="GameController" id="updateRecords">
+        <form method="post" action="BookController" id="updateRecords">
             <input type="submit" value="Update Record" id="update"/>
             <input type="number" min="0" value="0" name="updateIdSelector"/>
             <label>Book Title</label>
