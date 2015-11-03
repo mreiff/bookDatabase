@@ -30,7 +30,7 @@
             <label>Book Title</label>
             <input type="text" placeholder="Book Title" id="addBookTitle" name="addBookTitle"/>
             <label>Book Isbn</label>
-            <input type="date" id="addIsbn" name="addBookIsbn"/>
+            <input type="text" id="addIsbn" name="addBookIsbn"/>
             <input name="action" type="hidden" value="add"/>
         </form>
         <br>

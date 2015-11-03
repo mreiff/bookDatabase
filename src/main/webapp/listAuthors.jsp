@@ -44,8 +44,8 @@
             <tr style="background-color: black;color:white;">
                 <th align="left" class="tableHead">ID</th>
                 <th align="left" class="tableHead">Author Name</th>
-                <th align="right" class="tableHead">Date Added</th>
-                <th align="left" class="tableHead">Books Published</th>
+                <!--<th align="right" class="tableHead">Date Added</th>-->
+                <th align="left" class="tableHead">Date Added</th>
             </tr>
         <c:forEach var="a" items="${authors}" varStatus="rowCount">
             <c:choose>
@@ -65,12 +65,7 @@
                         <!-- Stuff I added -->
             <td align="left">${a.authorId}</td>
             <td align="left">${a.authorName}</td>
-            <td align="right">
-            <td algn="left"><c:choose>
-                    <c:when test=${NOT empty author.bookId(0)}>
-                        ${a.title}
-                    </c:when>
-                            </c:choose>
+            <td algn="left">
                 <fmt:formatDate pattern="M/d/yyyy" value="${a.dateCreated}"></fmt:formatDate>
             </td>
         </tr>

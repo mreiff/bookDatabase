@@ -26,7 +26,7 @@
 ">
     
     <!-- Scans within the base package of the application for Spring annotations to configure as beans -->
-    <context:component-scan base-package="edu.wctc.web.demo.bookapp">
+    <context:component-scan base-package="edu.wctc.mjr.bookapp">
         <context:exclude-filter type="regex" expression="edu\.wctc\.mjr\.bookapp\.repository.*" />
     </context:component-scan>
     <context:annotation-config/>

@@ -34,7 +34,9 @@ public class BookController extends HttpServlet {
     private static final String ADD_ACTION = "add";
     private static final String UPDATE_ACTION = "update";
     private static final String DELETE_ACTION = "delete";
-    private static final String ACTION_PARAM = "action";    
+    private static final String ACTION_PARAM = "action";  
+    
+    private static final String LIST_PAGE_URI = "http://localhost:8080/bookApp/BookController?action=list";
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -69,33 +71,32 @@ public class BookController extends HttpServlet {
 
             } else if (action.equals(ADD_ACTION)) {
                 // coming soon
-                String bookNameAdd = request.getParameter("addBookName");
                 String bookTitleAdd = request.getParameter("addBookTitle");
+                String bookIsbnAdd = request.getParameter("addBookIsbn");
                 Book book = null;
                 
                 book = new Book(0);
-                book.setTitle(bookNameAdd);
-                book.setIsbn(bookTitleAdd);
+                book.setTitle(bookTitleAdd);
+                book.setIsbn(bookIsbnAdd);
                 
                 bookService.edit(book);
                 
-                response.sendRedirect("http://localhost:8080/bookApp/bookController?action=list");
+                response.sendRedirect(LIST_PAGE_URI);
                 return;
             } else if (action.equals(UPDATE_ACTION)) {
                 String bookIdUpdate = request.getParameter("updateIdSelector");
-                String bookTitleUpdate = request.getParameter("updatebookName");
-                String bookDateUpdate = request.getParameter("updatebookDate");
+                String bookTitleUpdate = request.getParameter("updatebookTitle");
+                String bookIsbnUpdate = request.getParameter("updatebookIsbn");
                 Book book = new Book(new Integer(bookIdUpdate));
                 // coming soon
                 
                 book.setTitle(bookTitleUpdate);
-                
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                
+                book.setIsbn(bookIsbnUpdate);
+                                
                 bookService.edit(book);
                 
                 //authService
-                response.sendRedirect("http://localhost:8080/bookApp/bookController?action=list");
+                response.sendRedirect(LIST_PAGE_URI);
                 return;
             } else if (action.equals(DELETE_ACTION)) {
                 String bookIdDelete = request.getParameter("delete");
@@ -103,7 +104,7 @@ public class BookController extends HttpServlet {
                 Book book = bookService.findById(bookIdDelete);
                 bookService.remove(book);
                 
-                response.sendRedirect("http://localhost:8080/bookApp/bookController?action=list");
+                response.sendRedirect(LIST_PAGE_URI);
                 return;
             } else {
                 // no param identified in request, must be an error
