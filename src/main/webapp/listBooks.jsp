@@ -10,6 +10,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <!DOCTYPE html>
 <html>
@@ -19,6 +20,7 @@
     </head>
     <body>
         <h1>Book List</h1>
+        <sec:authorize access="hasAnyRole('ROLE_MGR')">
         <form method="post" action="BookController" id="deleteRecords">
             <input type="submit" value="Delete Record By ID" id="deleteBook"/>
             <input type="number" min="0" value="0" id="delete" name="delete"/>
@@ -43,6 +45,7 @@
             <input type="text" name="updateBookIsbn"/>
             <input name="action" type="hidden" value="update"/>
         </form>
+        </sec:authorize>
         <br>
         <table width="500" border="1" cellspacing="0" cellpadding="4">
             <tr style="background-color: black;color:white;">
