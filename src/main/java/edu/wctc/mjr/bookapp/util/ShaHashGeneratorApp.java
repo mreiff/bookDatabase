@@ -1,5 +1,6 @@
 package edu.wctc.mjr.bookapp.util;
 
+import java.util.Scanner;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 
 /**
@@ -11,32 +12,53 @@ import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
  * database with one account -- an admin account. From there on you can use
  * the web app instead of this program to create new users.
  * 
+ * 
+ *       THIS WAS MODIFIED BY CHIRS BISHOP
+ * 
+ *       I, Matthew Reiff, WANTED TO TEST HIS UNIQUE CODE SINCE IT FUNCTIONED IN A COOL WAY
+ * 
  * @author Jim Lombardo, james.g.lombardo@gmail.com
  */
 public class ShaHashGeneratorApp {
 
+    public static int SHA_TYPE = 512;
+    public static int SHA_ITERATIONS = 1024;
+    
     /**
      * @param args the command line arguments - not used.
      */
     public static void main(String[] args) {
-        // modify these as necessary...
-        String salt = "testuser@isp.com"; // username field in db
-        String password = "testuser"; // password field in db
-        System.out.println(password + ": " + sha512(password,salt));
+        try(Scanner scan = new Scanner(System.in)){
+            while(true){            
+                System.out.println("Please enter a username:");
+                String username = scan.nextLine();
+                if(username.equalsIgnoreCase("exit")){
+                    break;
+                }
 
-        salt = "testmgr@isp.com"; // username field in db
-        password = "testmgr"; // password field in db
-        System.out.println(password + ": " + sha512(password,salt));
+                System.out.println("\nPlease enter a password:");
+                String password = scan.nextLine();
+                if(username.equalsIgnoreCase("exit")){
+                    break;
+                }
 
+                System.out.println("\nResults:");
+                System.out.println(hash(password, username) + "\n\n");
+            }
+        }
     }
+    
+    /**
+     * Hash the password.
+     * @param password
+     * @param salt
+     * @return 
+     */
+    public static String hash(String password, String salt) {
+        ShaPasswordEncoder pe = new ShaPasswordEncoder(SHA_TYPE);
+        pe.setIterations(SHA_ITERATIONS);
+        String hash = pe.encodePassword(password, salt);
 
-    public static String sha512(String pwd, String salt) {
-
-            ShaPasswordEncoder pe = new ShaPasswordEncoder(512);
-            pe.setIterations(1024);
-            String hash = pe.encodePassword(pwd, salt);
-
-            return hash;
-     
+        return hash;
     }
 }
