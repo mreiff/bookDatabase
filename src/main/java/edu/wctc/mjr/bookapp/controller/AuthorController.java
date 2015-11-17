@@ -8,6 +8,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.inject.Inject;
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.servlet.RequestDispatcher;
@@ -36,6 +38,7 @@ public class AuthorController extends HttpServlet {
     private static final String UPDATE_ACTION = "update";
     private static final String DELETE_ACTION = "delete";
     private static final String ACTION_PARAM = "action";    
+    private static final String DISPLAY_JSON_ACTION = "displayJson";
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -68,7 +71,29 @@ public class AuthorController extends HttpServlet {
                 request.setAttribute("authors", authors);
                 destination = LIST_PAGE;
 
-            } else if (action.equals(ADD_ACTION)) {
+            }
+            else if(action.equals(DISPLAY_JSON_ACTION)){
+       
+                List<Author> authors = authService.findAll();
+
+                JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+                for(Author author : authors){
+                    jsonArrayBuilder.add(
+                            Json.createObjectBuilder()
+                                .add("authorId", author.getAuthorId())
+                                .add("authorName", author.getAuthorName())
+                                .add("dateCreated", author.getDateCreated().toString())
+                    );
+                }
+
+
+                response.setContentType("application/json");
+                response.getWriter().print(jsonArrayBuilder.build().toString());
+                response.getWriter().flush();
+
+                return;
+            }
+            else if (action.equals(ADD_ACTION)) {
                 // coming soon
                 String authorNameAdd = request.getParameter("addAuthorName");
                 String dateAdd = request.getParameter("addDate");
